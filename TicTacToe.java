@@ -13,7 +13,7 @@ public class TicTacToe {
 	// create board of length 10 & initialize indices except 0th-index with space
 	private char[] creatBoard() {
 		char board[] = new char[10];
-		for (int indexBoard = 0; indexBoard < board.length; indexBoard++)
+		for (int indexBoard = 1; indexBoard < board.length; indexBoard++)
 			board[indexBoard] = ' ';
 		return board;
 	}
