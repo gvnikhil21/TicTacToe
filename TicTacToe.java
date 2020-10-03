@@ -54,11 +54,11 @@ public class TicTacToe {
 
 	// displaying current board
 	private static void showBoard(char[] board) {
-		System.out.println("\n" + board[1] + "  | " + board[2] + " |  " + board[3]);
-		System.out.println("-----------");
-		System.out.println(board[4] + "  | " + board[5] + " |  " + board[6]);
-		System.out.println("-----------");
-		System.out.println(board[7] + "  | " + board[8] + " |  " + board[9]);
+		System.out.println("\n" + board[1] + " | " + board[2] + " | " + board[3]);
+		System.out.println("----------");
+		System.out.println(board[4] + " | " + board[5] + " | " + board[6]);
+		System.out.println("----------");
+		System.out.println(board[7] + " | " + board[8] + " | " + board[9]);
 	}
 
 	// making move for user
@@ -67,17 +67,22 @@ public class TicTacToe {
 		do {
 			System.out.println("Enter the position you want to move to: ");
 			position = sc.nextInt();
-			if (position > 0 && position < 10 && board[position] == ' ') {
+			if (position > 0 && position < 10 && isPositionFree(board, position)) {
 				moveToPosition(position, board);
 				break;
 			} else
 				System.out.println("Position should be empty and between 1 and 9(including 1 and 9)");
-		} while (position < 1 || position > 9 || board[position] != ' ');
+		} while (position < 1 || position > 9 || isPositionFree(board, position) == false);
 	}
 
 	// move to position provided
 	private void moveToPosition(int position, char[] board) {
 		board[position] = playerLetter;
 		showBoard(board);
+	}
+
+	// check if position is free or occupied
+	private boolean isPositionFree(char[] board, int position) {
+		return board[position] == ' ' ? true : false;
 	}
 }
