@@ -19,6 +19,8 @@ public class TicTacToe {
 		// decides letter for player
 		ticTacToe.decideLetterByPlayer();
 
+		// displays board
+		showBoard(board);
 	}
 
 	// create board of length 10 & initialize indices except 0th-index with space
@@ -48,5 +50,14 @@ public class TicTacToe {
 			System.out.println("Enter valid letter either X or O");
 		} while (letterChosen != 'X' && letterChosen != 'O');
 		return letterChosen;
+	}
+
+	// displaying current board
+	private static void showBoard(char[] board) {
+		System.out.println("\n" + board[1] + "  | " + board[2] + " |  " + board[3]);
+		System.out.println("-----------");
+		System.out.println(board[4] + "  | " + board[5] + " |  " + board[6]);
+		System.out.println("-----------");
+		System.out.println(board[7] + "  | " + board[8] + " |  " + board[9]);
 	}
 }
