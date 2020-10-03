@@ -19,8 +19,8 @@ public class TicTacToe {
 		// decides letter for player
 		ticTacToe.decideLetterByPlayer();
 
-		// displays board
-		showBoard(board);
+		// move to the position provided by user
+		ticTacToe.makeMoveUser(board);
 	}
 
 	// create board of length 10 & initialize indices except 0th-index with space
@@ -59,5 +59,25 @@ public class TicTacToe {
 		System.out.println(board[4] + "  | " + board[5] + " |  " + board[6]);
 		System.out.println("-----------");
 		System.out.println(board[7] + "  | " + board[8] + " |  " + board[9]);
+	}
+
+	// making move for user
+	private void makeMoveUser(char[] board) {
+		int position = 0;
+		do {
+			System.out.println("Enter the position you want to move to: ");
+			position = sc.nextInt();
+			if (position > 0 && position < 10 && board[position] == ' ') {
+				moveToPosition(position, board);
+				break;
+			} else
+				System.out.println("Position should be empty and between 1 and 9(including 1 and 9)");
+		} while (position < 1 || position > 9 || board[position] != ' ');
+	}
+
+	// move to position provided
+	private void moveToPosition(int position, char[] board) {
+		board[position] = playerLetter;
+		showBoard(board);
 	}
 }
