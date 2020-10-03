@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
+	public static final int HEAD = 1;
+
 	private static Scanner sc = new Scanner(System.in);
 	private static char computerLetter;
 	private static char playerLetter;
@@ -19,8 +21,15 @@ public class TicTacToe {
 		// decides letter for player
 		ticTacToe.decideLetterByPlayer();
 
-		// move to the position provided by user
-		ticTacToe.makeMoveUser(board);
+		// decides first turn by toss
+		int tossResult = ticTacToe.tossDecideFirstTurn();
+		if (tossResult == HEAD) {
+			System.out.println("Player plays first");
+			ticTacToe.makeMoveUser(board);
+		} else {
+			System.out.println("Computer plays first");
+			ticTacToe.makeMoveForComputer(board);
+		}
 	}
 
 	// create board of length 10 & initialize indices except 0th-index with space
@@ -68,21 +77,38 @@ public class TicTacToe {
 			System.out.println("Enter the position you want to move to: ");
 			position = sc.nextInt();
 			if (position > 0 && position < 10 && isPositionFree(board, position)) {
-				moveToPosition(position, board);
+				moveToPosition(position, board, playerLetter);
 				break;
 			} else
 				System.out.println("Position should be empty and between 1 and 9(including 1 and 9)");
 		} while (position < 1 || position > 9 || isPositionFree(board, position) == false);
 	}
 
+	// making move for computer
+	private void makeMoveForComputer(char[] board) {
+		int position = (int) Math.floor(Math.random() * 9) + 1;
+		do {
+			if (position > 0 && position < 10 && isPositionFree(board, position)) {
+				moveToPosition(position, board, computerLetter);
+				break;
+			}
+		} while (position < 1 || position > 9 || isPositionFree(board, position) == false);
+	}
+
 	// move to position provided
-	private void moveToPosition(int position, char[] board) {
-		board[position] = playerLetter;
+	private void moveToPosition(int position, char[] board, char letter) {
+		board[position] = letter;
 		showBoard(board);
 	}
 
 	// check if position is free or occupied
 	private boolean isPositionFree(char[] board, int position) {
 		return board[position] == ' ' ? true : false;
+	}
+
+	// toss to decide first turn
+	private int tossDecideFirstTurn() {
+		int tossResult = (int) Math.floor(Math.random() * 10) % 2;
+		return tossResult;
 	}
 }
