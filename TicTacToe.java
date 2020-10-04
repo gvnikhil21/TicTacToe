@@ -28,14 +28,7 @@ public class TicTacToe {
 		 * HEAD: Player plays first, else computer plays
 		 * first isPlayerTurn=1->player turn, else computer turn
 		 */
-		int tossResult = ticTacToe.tossDecideFirstTurn();
-		if (tossResult == HEAD) {
-			System.out.println("Player plays first");
-			isPlayerTurn = 1;
-		} else {
-			System.out.println("Computer plays first");
-			isPlayerTurn = 0;
-		}
+		isPlayerTurn = ticTacToe.tossDecideFirstTurn();
 		ticTacToe.makeMove(isPlayerTurn, board);
 	}
 
@@ -79,8 +72,7 @@ public class TicTacToe {
 
 	// making move which decided and calls move for user or computer
 	private void makeMove(int isPlayerTurn, char[] board) {
-		int boardFilled = 0;
-		while (boardFilled < 9 && isWinner(board) == false) {
+		while (isGameOver(board) == false) {
 			if (isPlayerTurn == 1) {
 				makeMoveUser(board);
 				isPlayerTurn = 0;
@@ -88,14 +80,13 @@ public class TicTacToe {
 				makeMoveForComputer(board);
 				isPlayerTurn = 1;
 			}
-			if (isWinner(board) && isPlayerTurn == 1) {
+			if (isGameOver(board) && isWinner(board) && isPlayerTurn == 1) {
 				System.out.println("Computer has Won!");
 				break;
-			} else if (isWinner(board) && isPlayerTurn == 0) {
+			} else if (isGameOver(board) && isWinner(board) && isPlayerTurn == 0) {
 				System.out.println("Player has Won!");
 				break;
 			}
-			boardFilled++;
 		}
 		if (isWinner(board) == false)
 			System.out.println("It's a Draw! No one has won");
@@ -119,7 +110,7 @@ public class TicTacToe {
 	private void makeMoveForComputer(char[] board) {
 		int position = checkCompWin(board);
 		if (position == -1)
-			position = checkPlayerWin(board);
+			position = checkPlayerWin(board); 
 		if (position == -2)
 			position = checkAvailableCorners(board);
 		if (position == -3)
@@ -150,7 +141,11 @@ public class TicTacToe {
 	// toss to decide first turn
 	private int tossDecideFirstTurn() {
 		int tossResult = (int) Math.floor(Math.random() * 10) % 2;
-		return tossResult;
+		if (tossResult == HEAD)
+			System.out.println("Player plays first");
+		else
+			System.out.println("Computer plays first");
+		return (tossResult == HEAD) ? 1 : 0;
 	}
 
 	// checks if computer can win
@@ -207,6 +202,19 @@ public class TicTacToe {
 		return position;
 	}
 
+	// check is game over or not
+	private boolean isGameOver(char[] board) {
+		return (isBoardFull(board) || isWinner(board));
+	}
+
+	// check board full or not
+	private boolean isBoardFull(char[] board) {
+		for (int indexBoard = 1; indexBoard < board.length; indexBoard++)
+			if (board[indexBoard] == ' ')
+				return false;
+		return true;
+	}
+	
 	// check winner
 	private boolean isWinner(char[] board) {
 		return ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
