@@ -118,7 +118,9 @@ public class TicTacToe {
 	// making move for computer
 	private void makeMoveForComputer(char[] board) {
 		int position = checkCompWin(board);
-		if (position == -1) {
+		if (position == -1)
+			position = checkPlayerWin(board);
+		if (position == -2) {
 			do {
 				position = (int) Math.floor(Math.random() * 9) + 1;
 				if (position > 0 && position < 10 && isPositionFree(board, position)) {
@@ -147,11 +149,28 @@ public class TicTacToe {
 		return tossResult;
 	}
 
+	// checks if computer can win
 	private int checkCompWin(char[] board) {
 		int position = -1;
 		for (int indexBoard = 1; indexBoard < board.length; indexBoard++) {
 			if (board[indexBoard] == ' ') {
 				board[indexBoard] = computerLetter;
+				if (isWinner(board)) {
+					position = indexBoard;
+					break;
+				}
+				board[indexBoard] = ' ';
+			}
+		}
+		return position;
+	}
+
+	// checks if player can win
+	private int checkPlayerWin(char[] board) {
+		int position = -2;
+		for (int indexBoard = 1; indexBoard < board.length; indexBoard++) {
+			if (board[indexBoard] == ' ') {
+				board[indexBoard] = playerLetter;
 				if (isWinner(board)) {
 					position = indexBoard;
 					break;
