@@ -7,29 +7,37 @@ public class TicTacToe {
 	public static final int HEAD = 1;
 
 	private static Scanner sc = new Scanner(System.in);
+	private static boolean isGameActive = true;
 	private static char computerLetter;
 	private static char playerLetter;
 
 	public static void main(String[] args) {
-		// variables
-		int isPlayerTurn;
-		char board[];
 		// welcome message
 		System.out.println("Welcome to Tic-Tac-Toe Game!");
+		
+		TicTacToe ticTacToe = new TicTacToe();
+		while (isGameActive == true) {
+			ticTacToe.playGame();
+		}
+		System.out.println("Thanks for playing the game!");
+	} 
+
+	private void playGame() {
+		int isPlayerTurn;
+		char board[];
 
 		// creates board
-		TicTacToe ticTacToe = new TicTacToe();
-		board = ticTacToe.creatBoard();
+		board = creatBoard();
 
 		// decides letter for player
-		ticTacToe.decideLetterByPlayer();
-
+		decideLetterByPlayer();
+		
 		/* decides first turn by toss 
 		 * HEAD: Player plays first, else computer plays
 		 * first isPlayerTurn=1->player turn, else computer turn
 		 */
-		isPlayerTurn = ticTacToe.tossDecideFirstTurn();
-		ticTacToe.makeMove(isPlayerTurn, board);
+		isPlayerTurn = tossDecideFirstTurn();
+		makeMove(isPlayerTurn, board);
 	}
 
 	// create board of length 10 & initialize indices except 0th-index with space
@@ -90,6 +98,7 @@ public class TicTacToe {
 		}
 		if (isWinner(board) == false)
 			System.out.println("It's a Draw! No one has won");
+		askForAnotherGame();
 	}
 
 	// making move for user
@@ -110,7 +119,7 @@ public class TicTacToe {
 	private void makeMoveForComputer(char[] board) {
 		int position = checkCompWin(board);
 		if (position == -1)
-			position = checkPlayerWin(board); 
+			position = checkPlayerWin(board);
 		if (position == -2)
 			position = checkAvailableCorners(board);
 		if (position == -3)
@@ -214,7 +223,13 @@ public class TicTacToe {
 				return false;
 		return true;
 	}
-	
+
+	// asks for another game
+	private void askForAnotherGame() {
+		System.out.println("Do you want to play again?(Y/N): ");
+		isGameActive = (sc.next().toUpperCase().charAt(0) == 'Y') ? true : false;
+	}
+
 	// check winner
 	private boolean isWinner(char[] board) {
 		return ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
