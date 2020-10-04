@@ -117,14 +117,17 @@ public class TicTacToe {
 
 	// making move for computer
 	private void makeMoveForComputer(char[] board) {
-		int position = 0;
-		do {
-			position = (int) Math.floor(Math.random() * 9) + 1;
-			if (position > 0 && position < 10 && isPositionFree(board, position)) {
-				moveToPosition(position, board, computerLetter);
-				break;
-			}
-		} while (position < 1 || position > 9 || isPositionFree(board, position) == false);
+		int position = checkCompWin(board);
+		if (position == -1) {
+			do {
+				position = (int) Math.floor(Math.random() * 9) + 1;
+				if (position > 0 && position < 10 && isPositionFree(board, position)) {
+					moveToPosition(position, board, computerLetter);
+					break;
+				}
+			} while (position < 1 || position > 9 || isPositionFree(board, position) == false);
+		} else
+			moveToPosition(position, board, computerLetter);
 	}
 
 	// move to position provided
@@ -144,6 +147,21 @@ public class TicTacToe {
 		return tossResult;
 	}
 
+	private int checkCompWin(char[] board) {
+		int position = -1;
+		for (int indexBoard = 1; indexBoard < board.length; indexBoard++) {
+			if (board[indexBoard] == ' ') {
+				board[indexBoard] = computerLetter;
+				if (isWinner(board)) {
+					position = indexBoard;
+					break;
+				}
+				board[indexBoard] = ' ';
+			}
+		}
+		return position;
+	}
+
 	// check winner
 	private boolean isWinner(char[] board) {
 		return ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
@@ -153,6 +171,6 @@ public class TicTacToe {
 				|| (board[2] == board[5] && board[5] == board[8] && board[2] != ' ')
 				|| (board[3] == board[6] && board[6] == board[9] && board[3] != ' ')
 				|| (board[1] == board[5] && board[5] == board[9] && board[1] != ' ')
-				|| (board[3] == board[5] && board[5] == board[7]) && board[2] != ' ');
+				|| (board[3] == board[5] && board[5] == board[7] && board[3] != ' '));
 	}
 }
