@@ -120,7 +120,9 @@ public class TicTacToe {
 		int position = checkCompWin(board);
 		if (position == -1)
 			position = checkPlayerWin(board);
-		if (position == -2) {
+		if (position == -2)
+			position = checkAvailableCorners(board);
+		if (position == -3) {
 			do {
 				position = (int) Math.floor(Math.random() * 9) + 1;
 				if (position > 0 && position < 10 && isPositionFree(board, position)) {
@@ -178,6 +180,20 @@ public class TicTacToe {
 				board[indexBoard] = ' ';
 			}
 		}
+		return position;
+	}
+
+	// checks available corners
+	private int checkAvailableCorners(char[] board) {
+		int position = -3;
+		if (board[1] == ' ')
+			position = 1;
+		else if (board[3] == ' ')
+			position = 3;
+		else if (board[7] == ' ')
+			position = 7;
+		else if (board[9] == ' ')
+			position = 9;
 		return position;
 	}
 
